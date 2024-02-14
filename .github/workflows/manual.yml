@@ -21,19 +21,20 @@ jobs:
           contains(github.event.comment.body, 'netlify build')
           && ${{ github.event.issue.pull_request }}
         run: |
-          branch_name=$(\
-            gh api \
-            $(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//') \
-            | jq -r .head.ref \
-          )
+          gh_api_url=$(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//')
+          gh_api_response=$(gh api $gh_api_url )
+          branch_name=$($gh_api_response | jq -r .head.ref)
+          pr_number=$($gh_api_response | jq -r .number)
 
           curl -X POST \
-          "https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=$branch_name"'&trigger_title=Deploy+preview+for+PR+${{ github.event.number }}'
+          "https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=$branch_name"'&trigger_title=Manual+deploy+preview+for+PR+#'"$pr_number"
 
       - name: Comment for Netlify to update with preview URL
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            > Netlify Preview Deployment Information
+            ### <span aria-hidden="true">⏳</span> Netlify Preview Deployment Information
 
-            > This comment will auto update when your preview build is ready!
+            This comment will auto update when your preview build is ready
+          comment_tag: manual-build-comment
+          reactions: eyes
