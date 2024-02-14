@@ -21,18 +21,14 @@ jobs:
           contains(github.event.comment.body, 'netlify build')
           && ${{ github.event.issue.pull_request }}
         run: |
-          gh api \
-          $(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//') \
-          | jq .head.ref
-        # echo "GITHUB_HEAD_REF: ${GITHUB_HEAD_REF}"
-        # echo "GITHUB_REF: ${GITHUB_REF}"
-        # echo 'github.event.comment.url: ${{ github.event.comment.url }}'
-        # echo 'github.event.issue.id: ${{ github.event.issue.id }}'
-        # echo 'github.refname: ${{ github.ref_name }}'
-        # echo 'github.event.number: ${{ github.event.number }}'
-        # echo 'github.event.pull_request.base.ref: ${{github.event.pull_request.base.ref}}'
-        # curl -X POST \
-        # https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=${{ github.ref_name }}&trigger_title=Deploy%20preview%20for%20PR%20${{ github.event.number }}
+          branch_name=$(\
+            gh api \
+              $(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//') \
+            | jq .head.ref\
+          )
+
+          curl -X POST \
+          https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=$branch_name&trigger_title=Deploy%20preview%20for%20PR%20${{ github.event.number }}
 
       - name: Comment for Netlify to update with preview URL
         uses: thollander/actions-comment-pull-request@v2
