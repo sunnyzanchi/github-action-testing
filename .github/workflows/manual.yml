@@ -15,8 +15,9 @@ jobs:
           contains(github.event.comment.body, 'netlify build')
           && ${{ github.event.issue.pull_request }}
         run: |
-          echo hi
-          echo ${{ github.ref_name }} ${{ github.event.number }}
+          echo 'github.refname: ${{ github.ref_name }}'
+          echo 'github.event.number: ${{ github.event.number }}'
+          echo 'github.event.pull_request.base.ref: ${{github.event.pull_request.base.ref}}'
         # curl -X POST \
         # https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=${{ github.ref_name }}&trigger_title=Deploy%20preview%20for%20PR%20${{ github.event.number }}
 
