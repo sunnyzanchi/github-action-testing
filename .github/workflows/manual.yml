@@ -23,8 +23,8 @@ jobs:
         run: |
           branch_name=$(\
             gh api \
-              $(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//') \
-            | jq .head.ref\
+            $(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//') \
+            | jq -r .head.ref \
           )
 
           curl -X POST \
