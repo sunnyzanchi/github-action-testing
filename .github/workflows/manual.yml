@@ -1,0 +1,29 @@
+name: Netlify build manual deploy comment
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: send request to Netlify build hook
+        # when a contributor comments 'netlify build',
+        # but only on pull requests, not issues
+        if: |
+          contains(github.event.comment.body, 'netlify build')
+          && ${{ github.event.issue.pull_request }}
+        run: |
+          echo hi
+          echo ${{ github.ref_name }} ${{ github.event.number }}
+        # curl -X POST \
+        # https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=${{ github.ref_name }}&trigger_title=Deploy%20preview%20for%20PR%20${{ github.event.number }}
+
+      - name: Comment for Netlify to update with preview URL
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            > Netlify Preview Deployment Information
+
+            > This comment will auto update when your preview build is ready!
