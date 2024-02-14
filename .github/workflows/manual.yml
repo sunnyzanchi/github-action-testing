@@ -37,4 +37,3 @@ jobs:
 
             This comment will auto update when your preview build is ready
           comment_tag: manual-build-comment
-          reactions: eyes
