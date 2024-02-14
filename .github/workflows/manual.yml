@@ -15,8 +15,8 @@ jobs:
           contains(github.event.comment.body, 'netlify build')
           && ${{ github.event.issue.pull_request }}
         run: |
-          echo 'GITHUB_HEAD_REF: ${GITHUB_HEAD_REF}'
-          echo 'GITHUB_REF: ${GITHUB_REF}'
+          echo "GITHUB_HEAD_REF: ${GITHUB_HEAD_REF}"
+          echo "GITHUB_REF: ${GITHUB_REF}"
           echo 'github.event.comment.url: ${{ github.event.comment.url }}'
           echo 'github.event.issue.id: ${{ github.event.issue.id }}'
         # echo 'github.refname: ${{ github.ref_name }}'
