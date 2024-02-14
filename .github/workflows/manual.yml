@@ -28,7 +28,7 @@ jobs:
           )
 
           curl -X POST \
-          https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=$branch_name&trigger_title=Deploy%20preview%20for%20PR%20${{ github.event.number }}
+          "https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=$branch_name" '&trigger_title=Deploy+preview+for+PR+${{ github.event.number }}'
 
       - name: Comment for Netlify to update with preview URL
         uses: thollander/actions-comment-pull-request@v2
