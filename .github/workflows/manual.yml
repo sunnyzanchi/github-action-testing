@@ -27,7 +27,7 @@ jobs:
           pr_number=$(echo $gh_api_response | jq -r .number)
 
           curl -X POST \
-          "https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=$branch_name"'&trigger_title=Manual+deploy+preview+for+PR+#'"$pr_number"
+          "https://api.netlify.com/build_hooks/${{ secrets.NETLIFY_BUILD_HOOK_ID }}?trigger_branch=$branch_name"'&trigger_title=Manual+deploy+preview+for+PR+%23'"$pr_number"
 
       - name: Comment for Netlify to update with preview URL
         uses: thollander/actions-comment-pull-request@v2
