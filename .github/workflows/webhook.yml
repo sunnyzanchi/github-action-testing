@@ -57,6 +57,8 @@ jobs:
 
       - name: update PR check - pending
         if: ${{ inputs.buildStatus }} == 'building'
+        env: 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh api \
             --method POST \
@@ -68,6 +70,8 @@ jobs:
 
       - name: update PR check - failed
         if: ${{ inputs.buildStatus }} == 'failed'
+        env: 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh api \
             --method POST \
@@ -79,6 +83,8 @@ jobs:
 
       - name: update PR check - succeeded
         if: ${{ inputs.buildStatus }} == 'succeeded'
+        env: 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh api \
             --method POST \
