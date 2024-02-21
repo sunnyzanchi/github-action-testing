@@ -54,7 +54,7 @@ jobs:
               )
               ;;
           esac
-          echo "COMMENT_BODY='$comment_body' >> $GITHUB_OUTPUT"
+          echo "COMMENT_BODY='$comment_body'" >> "$GITHUB_OUTPUT"
 
       - name: update PR check - pending
         if: ${{ inputs.buildStatus == 'building' }}
