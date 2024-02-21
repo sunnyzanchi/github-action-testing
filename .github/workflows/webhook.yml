@@ -66,7 +66,7 @@ jobs:
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has started' \
             -f context='netlify/build' \
-            /repos/newrelic/docs-website/statuses/${{ inputs.sha }}
+            /repos/${{ github.action_repository }}/statuses/${{ inputs.sha }}
 
       - name: update PR check - failed
         if: ${{ inputs.buildStatus }} == 'failed'
@@ -79,7 +79,7 @@ jobs:
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has failed' \
             -f context='netlify/build' \
-            /repos/newrelic/docs-website/statuses/${{ inputs.sha }}
+            /repos/${{ github.action_repository }}/statuses/${{ inputs.sha }}
 
       - name: update PR check - succeeded
         if: ${{ inputs.buildStatus }} == 'succeeded'
