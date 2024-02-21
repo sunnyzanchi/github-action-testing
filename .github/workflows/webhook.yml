@@ -35,23 +35,23 @@ jobs:
           # set title
           case '${{ inputs.buildStatus }}' in
             "building")
-                comment_body=$(cat <<-END
-                ### <span aria-hidden="true">⏳</span> Deploy Preview building!
-                END
-                )
-                ;;
+              comment_body=$(cat <<-END
+              ### <span aria-hidden="true">⏳</span> Deploy Preview building!
+          END
+              )
+              ;;
             "succeeded")
-                comment_body=$(cat <<-END
-                ### <span aria-hidden="true">✅</span> Deploy Preview ready!
-                END
-                )
-                ;;
+              comment_body=$(cat <<-END
+              ### <span aria-hidden="true">✅</span> Deploy Preview ready!
+          END
+              )
+              ;;
             "failed")
-                comment_body=$(cat <<-END
-                ### <span aria-hidden="true">❌</span> Deploy Preview failed!
-                END
-                )
-                ;;
+              comment_body=$(cat <<-END
+              ### <span aria-hidden="true">❌</span> Deploy Preview failed!
+          END
+              )
+              ;;
           esac
           echo "COMMENT_BODY=$comment_body >> $GITHUB_OUTPUT"
 
