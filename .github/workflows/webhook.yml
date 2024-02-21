@@ -76,7 +76,7 @@ jobs:
           echo "$comment_body"
           echo "\n"
           {
-          echo comment_body<<EOF
+          echo 'comment_body<<EOF'
           echo "$comment_body"
           echo EOF
           } >> "$GITHUB_OUTPUT"
