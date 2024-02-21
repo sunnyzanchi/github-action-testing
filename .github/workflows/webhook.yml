@@ -37,19 +37,38 @@ jobs:
           case '${{ inputs.buildStatus }}' in
             "building")
               comment_body=$(cat <<-END
-              ### <span aria-hidden="true">⏳</span> Deploy Preview building!
+          ### <span aria-hidden="true">⏳</span> Deploy Preview building!
+
+          |  Name | Link |
+          |:-:|------------------------|
+          |<span aria-hidden="true">🔨</span> Latest commit | ${{ inputs.sha }} |
+          |<span aria-hidden="true">🔍</span> Latest deploy log | ${{ inputs.deployLogUrl }} |
+          ---
           END
               )
               ;;
             "succeeded")
               comment_body=$(cat <<-END
-              ### <span aria-hidden="true">✅</span> Deploy Preview ready!
+          ### <span aria-hidden="true">✅</span> Deploy Preview ready!
+
+          |  Name | Link |
+          |:-:|------------------------|
+          |<span aria-hidden="true">🔨</span> Latest commit | ${{ inputs.sha }} |
+          |<span aria-hidden="true">🔍</span> Latest deploy log | ${{ inputs.deployLogUrl }} |
+          |<span aria-hidden="true">😎</span> Deploy Preview | [${{ inputs.deployUrl }}](${{ inputs.deployUrl }}) |
+          ---
           END
               )
               ;;
             "failed")
               comment_body=$(cat <<-END
-              ### <span aria-hidden="true">❌</span> Deploy Preview failed!
+          ### <span aria-hidden="true">❌</span> Deploy Preview failed!
+
+          |  Name | Link |
+          |:-:|------------------------|
+          |<span aria-hidden="true">🔨</span> Latest commit | ${{ inputs.sha }} |
+          |<span aria-hidden="true">🔍</span> Latest deploy log | ${{ inputs.deployLogUrl }} |
+          ---
           END
               )
               ;;
