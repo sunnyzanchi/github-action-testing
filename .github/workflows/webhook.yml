@@ -63,8 +63,8 @@ jobs:
             -f state='pending' \
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has started' \
-            -f context='netlify/build' 
-            /repos/newrelic/docs-website/statuses/${{ inputs.sha }} \
+            -f context='netlify/build' \
+            /repos/newrelic/docs-website/statuses/${{ inputs.sha }}
 
       - name: update PR check - failed
         if: ${{ inputs.buildStatus }} == 'failed'
@@ -74,8 +74,8 @@ jobs:
             -f state='failure' \
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has failed' \
-            -f context='netlify/build' 
-            /repos/newrelic/docs-website/statuses/${{ inputs.sha }} \
+            -f context='netlify/build' \
+            /repos/newrelic/docs-website/statuses/${{ inputs.sha }}
 
       - name: update PR check - succeeded
         if: ${{ inputs.buildStatus }} == 'succeeded'
@@ -85,8 +85,8 @@ jobs:
             -f state='success' \
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has finished successfully' \
-            -f context='netlify/build' 
-            /repos/newrelic/docs-website/statuses/${{ inputs.sha }} \
+            -f context='netlify/build' \
+            /repos/newrelic/docs-website/statuses/${{ inputs.sha }}
 
       - name: update PR comment with Netlify status
         uses: thollander/actions-comment-pull-request@v2
