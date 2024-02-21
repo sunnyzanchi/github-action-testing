@@ -15,15 +15,15 @@ on:
           - building
           - succeeded
           - failed
-        deployUrl:
-          description: URL of live branch deploy
-          required: false
-        deployLogUrl:
-          description: URL of logs
-          required: false
-        sha:
-          description: SHA hash of the commit built
-          required: true
+      deployUrl:
+        description: URL of live branch deploy
+        required: false
+      deployLogUrl:
+        description: URL of logs
+        required: false
+      sha:
+        description: SHA hash of the commit built
+        required: true
 
 jobs:
   deploy-preview:
