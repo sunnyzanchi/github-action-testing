@@ -57,7 +57,7 @@ jobs:
           echo "COMMENT_BODY=$comment_body >> $GITHUB_OUTPUT"
 
       - name: update PR check - pending
-        if: ${{ inputs.buildStatus }} == 'building'
+        if: ${{ inputs.buildStatus == 'building' }}
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -70,7 +70,7 @@ jobs:
             /repos/${{ env.repo }}/statuses/${{ inputs.sha }}
 
       - name: update PR check - failed
-        if: ${{ inputs.buildStatus }} == 'failed'
+        if: ${{ inputs.buildStatus == 'failed' }}
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -83,7 +83,7 @@ jobs:
             /repos/${{ env.repo }}/statuses/${{ inputs.sha }}
 
       - name: update PR check - succeeded
-        if: ${{ inputs.buildStatus }} == 'succeeded'
+        if: ${{ inputs.buildStatus == 'succeeded' }}
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
