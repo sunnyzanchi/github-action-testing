@@ -1,6 +1,6 @@
 name: update PR comment after Netlify notification
 env:
-  repo: ${{ github.action_repo }}
+  repo: ${{ github.action_repository }}
 on:
   workflow_dispatch:
     inputs:
