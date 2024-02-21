@@ -33,7 +33,7 @@ jobs:
         id: construct-output
         run: |
           # set title
-          case echo ${{ inputs.buildStatus }} in
+          case '${{ inputs.buildStatus }}' in
             "building")
                 comment_body=$(cat <<-END
                 ### <span aria-hidden="true">⏳</span> Deploy Preview building!
