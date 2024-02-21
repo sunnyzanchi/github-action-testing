@@ -97,7 +97,7 @@ jobs:
 
       - name: wtf why
         run: |
-          echo '${{ steps.construct-output.outputs }}'
+          echo '${{ toJson(steps.construct-output.outputs) }}'
 
       - name: update PR comment with Netlify status
         uses: thollander/actions-comment-pull-request@v2
