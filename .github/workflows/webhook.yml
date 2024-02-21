@@ -1,5 +1,6 @@
 name: update PR comment after Netlify notification
-
+env:
+  repo: ${{ github.action_repo }}
 on:
   workflow_dispatch:
     inputs:
@@ -66,7 +67,7 @@ jobs:
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has started' \
             -f context='netlify/build' \
-            /repos/${{ github.action_repository }}/statuses/${{ inputs.sha }}
+            /repos/${{ env.repo }}/statuses/${{ inputs.sha }}
 
       - name: update PR check - failed
         if: ${{ inputs.buildStatus }} == 'failed'
@@ -79,7 +80,7 @@ jobs:
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has failed' \
             -f context='netlify/build' \
-            /repos/${{ github.action_repository }}/statuses/${{ inputs.sha }}
+            /repos/${{ env.repo }}/statuses/${{ inputs.sha }}
 
       - name: update PR check - succeeded
         if: ${{ inputs.buildStatus }} == 'succeeded'
@@ -92,7 +93,7 @@ jobs:
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has finished successfully' \
             -f context='netlify/build' \
-            /repos/${{ github.action_repository }}/statuses/${{ inputs.sha }}
+            /repos/${{ env.repo }}/statuses/${{ inputs.sha }}
 
       - name: update PR comment with Netlify status
         uses: thollander/actions-comment-pull-request@v2
