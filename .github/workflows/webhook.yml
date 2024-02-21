@@ -1,0 +1,95 @@
+name: update PR comment after Netlify notification
+
+on:
+  workflow_dispatch:
+    inputs:
+      prNumber:
+        description: PR to update with build status
+        required: true
+        type: number
+      buildStatus:
+        description: current build status from Netlify
+        required: true
+        type: choice
+        options:
+          - building
+          - succeeded
+          - failed
+        deployUrl:
+          description: URL of live branch deploy
+          required: false
+        deployLogUrl:
+          description: URL of logs
+          required: false
+        sha:
+          description: SHA hash of the commit built
+          required: true
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: construct output
+        id: construct-output
+        run: |
+          # set title
+          case echo ${{ inputs.buildStatus }} in
+            "building")
+                comment_body=$(cat <<-END
+                ### <span aria-hidden="true">⏳</span> Deploy Preview building!
+                END
+                )
+                ;;
+            "succeeded")
+                comment_body=$(cat <<-END
+                ### <span aria-hidden="true">✅</span> Deploy Preview ready!
+                END
+                )
+                ;;
+            "failed")
+                comment_body=$(cat <<-END
+                ### <span aria-hidden="true">❌</span> Deploy Preview failed!
+                END
+                )
+                ;;
+          esac
+          echo "COMMENT_BODY=$comment_body >> $GITHUB_OUTPUT"
+
+      - name: update PR check - pending
+        if: ${{ inputs.buildStatus }} == 'building'
+        run: |
+          gh api \
+            --method POST \
+            -f state='pending' \
+            -f target_url='${{ inputs.deployLogUrl }}' \
+            -f description='The build has started' \
+            -f context='netlify/build' 
+            /repos/newrelic/docs-website/statuses/${{ inputs.sha }} \
+
+      - name: update PR check - failed
+        if: ${{ inputs.buildStatus }} == 'failed'
+        run: |
+          gh api \
+            --method POST \
+            -f state='failure' \
+            -f target_url='${{ inputs.deployLogUrl }}' \
+            -f description='The build has failed' \
+            -f context='netlify/build' 
+            /repos/newrelic/docs-website/statuses/${{ inputs.sha }} \
+
+      - name: update PR check - succeeded
+        if: ${{ inputs.buildStatus }} == 'succeeded'
+        run: |
+          gh api \
+            --method POST \
+            -f state='success' \
+            -f target_url='${{ inputs.deployLogUrl }}' \
+            -f description='The build has finished successfully' \
+            -f context='netlify/build' 
+            /repos/newrelic/docs-website/statuses/${{ inputs.sha }} \
+
+      - name: update PR comment with Netlify status
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: ${{ steps.construct-output.outputs.COMMENT_BODY }}
+          comment_tag: manual-build-comment
