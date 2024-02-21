@@ -95,6 +95,10 @@ jobs:
             -f context='netlify/build' \
             /repos/${{ env.repo }}/statuses/${{ inputs.sha }}
 
+      - name: wtf why
+        run: |
+          echo '${{ steps.construct-output.outputs.COMMENT_BODY }}'
+
       - name: update PR comment with Netlify status
         uses: thollander/actions-comment-pull-request@v2
         with:
