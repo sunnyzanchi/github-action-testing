@@ -86,7 +86,7 @@ jobs:
             -f target_url='${{ inputs.deployLogUrl }}' \
             -f description='The build has finished successfully' \
             -f context='netlify/build' \
-            /repos/newrelic/docs-website/statuses/${{ inputs.sha }}
+            /repos/${{ github.action_repository }}/statuses/${{ inputs.sha }}
 
       - name: update PR comment with Netlify status
         uses: thollander/actions-comment-pull-request@v2
