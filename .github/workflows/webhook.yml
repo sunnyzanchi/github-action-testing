@@ -30,8 +30,8 @@ jobs:
   deploy-preview:
     runs-on: ubuntu-latest
     steps:
-      - name: construct output
-        id: construct-output
+      - name: construct message
+        id: construct-message
         run: |
           # set title
           case '${{ inputs.buildStatus }}' in
@@ -54,7 +54,7 @@ jobs:
               )
               ;;
           esac
-          echo "COMMENT_BODY='$comment_body'" >> "$GITHUB_OUTPUT"
+          echo "comment_body=$comment_body" >> "$GITHUB_OUTPUT"
 
       - name: update PR check - pending
         if: ${{ inputs.buildStatus == 'building' }}
@@ -98,6 +98,6 @@ jobs:
       - name: update PR comment with Netlify status
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: ${{ steps.construct-output.outputs.COMMENT_BODY }}
+          message: ${{ steps.construct-message.outputs.comment_body }}
           pr_number: ${{ inputs.prNumber }}
           comment_tag: manual-build-comment
