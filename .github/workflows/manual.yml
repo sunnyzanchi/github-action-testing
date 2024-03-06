@@ -11,10 +11,10 @@ jobs:
     # when a contributor comments 'netlify build',
     # but only on pull requests, not issues.
     # or if a contributor opens a PR for the first time.
-    if: |
-       (github.event.comment.body == 'netlify build'
-         && github.event.issue.pull_request)
-         || github.event.pull_request.action == 'opened'
+    # if: |
+    #    (github.event.comment.body == 'netlify build'
+    #      && github.event.issue.pull_request)
+    #      || github.event.pull_request.action == 'opened'
     runs-on: ubuntu-latest
       
     steps:
