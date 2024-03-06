@@ -24,17 +24,7 @@ jobs:
 
       - name: 'debug'
         run: |
-          echo ${{ github.event.comment.body }}
-          echo ${{ github.event.comment.body == 'netlify build' }}
-          echo ${{ github.event.name }}
-          echo ${{ github.event.issue.pull_request }}
-          echo '${{ toJSON(github.event.pull_request) }}'
-          echo ${{ github.event.pull_request.action }}
-          echo ${{ github.event.pull_request.action == 'opened' }}
-          echo ${{ (github.event.comment.body == 'netlify build'
-            && github.event.issue.pull_request)
-            || github.event.pull_request.action == 'opened'
-          }}
+          echo '${{ toJSON(github.event) }}'
 
       - name: send request to Netlify build hook
         env: 
