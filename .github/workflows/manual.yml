@@ -23,6 +23,12 @@ jobs:
       - name: 'Setup jq'
         uses: dcarbone/install-jq-action@v2
 
+      - name: 'debug'
+        run: |
+          echo ${{ github.event.comment.body == 'netlify build' }}
+          echo ${{ github.event.issue.pull_request }}
+          echo ${{ github.event.pull_request.action == 'opened' }}
+
       - name: send request to Netlify build hook
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
