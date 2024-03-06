@@ -26,7 +26,7 @@ jobs:
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh_api_url=$(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//')
+          gh_api_url=$(echo ${{ github.event.issue.pull_request.url || github.event.pull_request.url }} | sed 's/https:\/\/api.github.com//')
           gh_api_response=$(gh api $gh_api_url )
           branch_name=$(echo $gh_api_response | jq -r .head.ref)
           sha=$(echo $gh_api_response | jq -r .head.sha)
