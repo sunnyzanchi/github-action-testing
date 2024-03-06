@@ -3,6 +3,8 @@ name: Netlify build manual deploy comment
 on:
   issue_comment:
     types: [created]
+  pull_request:
+    types: [opened]
 
 jobs:
   deploy-preview:
@@ -18,8 +20,11 @@ jobs:
         # when a contributor comments 'netlify build',
         # but only on pull requests, not issues
         if: |
-          github.event.comment.body == 'netlify build'
-          && ${{ github.event.issue.pull_request }}
+          (
+            github.event.comment.body == 'netlify build'
+            && ${{ github.event.issue.pull_request }}
+          ) || ${{ github.event.pull_request.action == 'opened' }}
+          
         run: |
           gh_api_url=$(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//')
           gh_api_response=$(gh api $gh_api_url )
