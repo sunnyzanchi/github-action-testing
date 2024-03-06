@@ -28,6 +28,10 @@ jobs:
           echo ${{ github.event.comment.body == 'netlify build' }}
           echo ${{ github.event.issue.pull_request }}
           echo ${{ github.event.pull_request.action == 'opened' }}
+          echo ${{ (github.event.comment.body == 'netlify build'
+            && github.event.issue.pull_request)
+            || github.event.pull_request.action == 'opened'
+          }}
 
       - name: send request to Netlify build hook
         env: 
