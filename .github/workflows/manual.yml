@@ -18,7 +18,7 @@ jobs:
         # when a contributor comments 'netlify build',
         # but only on pull requests, not issues
         if: |
-          contains(github.event.comment.body, 'netlify build')
+          github.event.comment.body == 'netlify build'
           && ${{ github.event.issue.pull_request }}
         run: |
           gh_api_url=$(echo ${{ github.event.issue.pull_request.url }} | sed 's/https:\/\/api.github.com//')
